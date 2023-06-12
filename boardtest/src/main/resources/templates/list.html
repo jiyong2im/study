@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+     <meta charset="UTF-8">
+     <style>
+table     { width:680px; text-align:center; }
+th        { background-color:cyan; }
+
+.num      { width: 80px; }
+.title    { width:230px; }
+.writer   { width:100px; }
+.regtime  { width:180px; }
+         a:link    { text-decoration:none; color:blue; }
+         a:visited { text-decoration:none; color:gray; }
+         a:hover   { text-decoration:none; color:red;  }
+ .pagination {
+     display: inline-block;
+ }
+
+.pagination a {
+          color: black;
+          float: left;
+          padding: 8px 16px;
+          text-decoration: none;
+          border: 1px solid #ddd;
+      }
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+     </style>
+</head>
+<body>
+
+<table >
+    <tr>
+        <th class="num"    >번호    </th>
+        <th class="title"  >제목    </th>
+        <th class="writer" >작성자  </th>
+        <th class="regtime">작성일시</th>
+        <th                >조회수  </th>
+    </tr>
+    <tr th:each="list : ${list}">
+        <td th:text = "${list.id}"></td>
+        <td style="text-align:left;">
+            <a th:href="@{view(num=${list.id})}" th:text ="${list.title}">글 제목 3</a>
+        </td>
+        <td th:text = "${list.name}"></td>
+        <td th:text = "${list.createdAt}"></td>
+        <td th:text = "${list.getViews()}"></td>
+    </tr>
+
+</table>
+<input type="button" value="글쓰기" onclick="location.href='write'">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="button" value="크롤링보기" onclick="location.href='crawling'">
+
+<br><br><br>
+<div class="pagination" th:each="png : ${page}">
+    <a th:href="@{list(num=${png.pageNo})}" >
+    <span th:switch="${png}">
+        <span th:case="${png.curPage}">
+            <u th:text="${png.display}"></u>
+        </span>
+        <span th:case="*" >
+            <u th:text="${png.display}"></u>
+        </span>
+    </span>
+    </a>
+</div>
+
+
+</body>
+</html>
+
+<!--<div style="width:680px; text-align:center;" th:each="pgn : ${page}">-->
+<!--    <a class="pgn" th:href="@{list(num=${pgn.pageNo})}">-->
+<!--        <th:block th:switch="${pgn.curPage}">-->
+<!--    <span th:case="${pgn.curPage}">-->
+<!--        <u th:text="${pgn.pageNo}"></u>-->
+<!--    </span>-->
+<!--            <span th:case="*">-->
+<!--        <span th:text="${pgn.pageNo}"></span>-->
+<!--    </span>-->
+<!--        </th:block>-->
+<!--    </a>&nbsp;-->
+<!--</div>-->

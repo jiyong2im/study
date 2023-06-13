@@ -2,6 +2,10 @@ package com.springboot.boardtest.controller;
 
 import com.springboot.boardtest.data.dto.InsertDto;
 import com.springboot.boardtest.service.BoardService;
+import com.springboot.boardtest.service.CrawlingService;
+import com.springboot.boardtest.service.Impl.BoardServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +47,12 @@ import java.util.Optional;
 @Controller
 public class BoardController {
     private final BoardService boardService;
+    private final CrawlingService crawlingService;
+    private final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
 
-    public BoardController(BoardService boardService){
+    public BoardController(BoardService boardService, CrawlingService crawlingService){
         this.boardService = boardService;
+        this.crawlingService = crawlingService;
     }
 
 
@@ -102,7 +109,9 @@ public class BoardController {
 
     @GetMapping("crawling")
     public String crawling(Model model) {
-        model.addAttribute("list", boardService.crawling());
+        model.addAttribute("seongnamList", crawlingService.seongnamBoardCrawling());
+        model.addAttribute("geumgwangList", crawlingService.geumgwangBoardCrawling());
+
         return "crawling";
     }
 

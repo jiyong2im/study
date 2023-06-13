@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <style>
-    table     { width:680px; text-align:center; }
+    table     { width:680px; float: left; }
     th        { background-color:mediumslateblue; }
 
-    .num      { width: 80px;}
+    .num      { width: 600px;}
     .title    { width:450px;}
     .writer   { width:100px;}
     .regtime  { width:180px;}
@@ -40,19 +40,23 @@
 
 <table >
   <tr>
-    <th class="num"    >번호    </th>
-    <th class="title"  >제목    </th>
-    <th class="writer" >작성자  </th>
-    <th class="regtime">작성일시</th>
-    <th                >조회수  </th>
+    <th class="num"    >성남시    </th>
   </tr>
-  <tr th:each="list : ${list}">
-
-      <td></td>
-    <td th:text = "${list}"></td>
-
+  <tr th:each="list : ${seongnamList}">
+    <td>
+      <a th:href="@{${list.link}}" th:text ="${list.title}">글 제목 3</a>
+    </td>
   </tr>
-
+</table>
+<table >
+  <tr>
+    <th class="num"    >금광동    </th>
+  </tr>
+  <tr th:each="list : ${geumgwangList}">
+    <td>
+      <a th:href="@{${list.link}}" th:text ="${list.title}">글 제목 3</a>
+    </td>
+  </tr>
 </table>
 
 

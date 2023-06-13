@@ -21,7 +21,5 @@ public interface BoardService {
 
     void deleteOne(Long num);
 
-    List<String> crawling ();
-
 
 }

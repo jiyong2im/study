@@ -1,11 +1,15 @@
 package com.springboot.boardtest.controller;
 
+import com.springboot.boardtest.data.dto.BoardDto;
 import com.springboot.boardtest.data.dto.InsertDto;
+import com.springboot.boardtest.data.entity.Board;
 import com.springboot.boardtest.service.BoardService;
 import com.springboot.boardtest.service.CrawlingService;
 import com.springboot.boardtest.service.Impl.BoardServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +47,7 @@ import java.util.Optional;
  */
 
 
-//@RequestMapping("jiyong/spring/board")
+@RequestMapping("jiyong/spring/board")
 @Controller
 public class BoardController {
     private final BoardService boardService;
@@ -67,16 +71,16 @@ public class BoardController {
         return "list";
     }
 
-    @PostMapping("/insert")
-    public String insert(@ModelAttribute InsertDto insert) {
+    @PostMapping("/insertion")
+    public String setInsert(@RequestBody InsertDto insert) {
         boardService.writeService(insert);
         System.out.println(insert.toString());
 
         return "redirect:list";
     }
 
-    @PostMapping("/insertre")
-    public String insertRe(@ModelAttribute InsertDto insert, @RequestParam Long num) {
+    @PostMapping("/insertionre")
+    public String setInsertRe(@RequestBody InsertDto insert, @RequestParam Long num) {
         boardService.reWriteService(insert ,num);
 
         return "redirect:list";
@@ -84,36 +88,38 @@ public class BoardController {
 
 
     @GetMapping("/view")
-    public String view (@ModelAttribute("num") Long num, Model model){
+    public String getView (@ModelAttribute("num") Long num, Model model){
         model.addAttribute("one", boardService.selectOne(num));
         return "view";
     }
 
-    @GetMapping("write")
-    public String write (){
+    @PutMapping("write")
+    public String setWrite (){
         return "write";
     }
 
-    @GetMapping("rewrite")
-    public String reWrite (@ModelAttribute("num") Long num, Model model){
+    @PutMapping("rewrite")
+    public String setReWrite (@ModelAttribute("num") Long num, Model model){
         model.addAttribute("one", boardService.selectOne(num));
         return "rewrite";
     }
 
-    @GetMapping("delete")
+    @DeleteMapping("deletion")
     public String delete(@ModelAttribute("num") Long num) {
         boardService.deleteOne(num);
 
         return "redirect:list";
     }
 
-    @GetMapping("crawling")
-    public String crawling(Model model) {
+    @GetMapping("seongnamboard")
+    public String getCrawling(Model model) {
         model.addAttribute("seongnamList", crawlingService.seongnamBoardCrawling());
         model.addAttribute("geumgwangList", crawlingService.geumgwangBoardCrawling());
 
         return "crawling";
     }
+
+
 
 
 }

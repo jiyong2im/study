@@ -48,6 +48,7 @@ import java.util.Optional;
     dd.setViewName("") html이름 쓰기 애는 리턴 스트링이 아니라 자기 클래스
 
  */
+@RequestMapping(value = "/", method = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @Controller
 public class BoardController {
     private final BoardService boardService;
@@ -80,7 +81,7 @@ public class BoardController {
     }
 
     @PostMapping("/insertion")
-    public String setInsert(@RequestBody InsertDto insert) {
+    public String setInsert( InsertDto insert) {
         boardService.writeService(insert);
         System.out.println(insert.toString());
 
@@ -88,7 +89,7 @@ public class BoardController {
     }
 
     @PostMapping("/insertionre")
-    public String setInsertRe(@RequestBody InsertDto insert, @RequestParam Long num) {
+    public String setInsertRe( InsertDto insert, @RequestParam Long num) {
         boardService.reWriteService(insert ,num);
 
         return "redirect:list";
@@ -101,7 +102,7 @@ public class BoardController {
         return "view";
     }
 
-    @PutMapping("write")
+    @GetMapping("write")
     public String setWrite (){
         return "write";
     }

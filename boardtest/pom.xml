@@ -74,7 +74,13 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>3.0.0</version>
-        </dependency>    </dependencies>
+        </dependency>
+        <!--oauth -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

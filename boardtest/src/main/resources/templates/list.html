@@ -38,6 +38,14 @@ th        { background-color:cyan; }
 </head>
 <body>
 
+<p th:if="${userName}">
+   유저네임<spna th:text="${userName}"></spna>
+    <span><a href="/logout">로그아웃하기</a></span>
+</p>
+<p th:unless="${userName}">
+    <span><a href="/oauth2/authorization/google">로그인하기</a></span>
+</p>
+
 <table >
     <tr>
         <th class="num"    >번호    </th>

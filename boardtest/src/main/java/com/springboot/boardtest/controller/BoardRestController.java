@@ -1,5 +1,6 @@
 package com.springboot.boardtest.controller;
 
+import com.springboot.boardtest.config.auth.SessionUser;
 import com.springboot.boardtest.data.dto.BoardDto;
 import com.springboot.boardtest.data.dto.InsertDto;
 import com.springboot.boardtest.data.entity.Board;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -19,6 +21,7 @@ public class BoardRestController {
         private final BoardService boardService;
         private final CrawlingService crawlingService;
         private final Logger LOGGER = LoggerFactory.getLogger(BoardRestController.class);
+
 
         public BoardRestController(BoardService boardService, CrawlingService crawlingService){
             this.boardService = boardService;
@@ -29,6 +32,7 @@ public class BoardRestController {
         public ResponseEntity<List<BoardDto>> getList(@RequestParam(value="num", required = false, defaultValue="1") Long num) {
             Long pageNo = num;
             List<BoardDto> boardList = boardService.selectList(pageNo.intValue());
+
             return ResponseEntity.ok(boardList);
         }
 

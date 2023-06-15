@@ -1,5 +1,6 @@
 package com.springboot.boardtest.controller;
 
+import com.springboot.boardtest.config.auth.SessionUser;
 import com.springboot.boardtest.data.dto.BoardDto;
 import com.springboot.boardtest.data.dto.InsertDto;
 import com.springboot.boardtest.data.entity.Board;
@@ -8,12 +9,14 @@ import com.springboot.boardtest.service.CrawlingService;
 import com.springboot.boardtest.service.Impl.BoardServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,18 +48,19 @@ import java.util.Optional;
     dd.setViewName("") html이름 쓰기 애는 리턴 스트링이 아니라 자기 클래스
 
  */
-
-
-@RequestMapping("jiyong/spring/board")
 @Controller
 public class BoardController {
     private final BoardService boardService;
     private final CrawlingService crawlingService;
     private final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
 
-    public BoardController(BoardService boardService, CrawlingService crawlingService){
+    private final HttpSession httpSession;
+
+
+    public BoardController(BoardService boardService, CrawlingService crawlingService, HttpSession httpSession){
         this.boardService = boardService;
         this.crawlingService = crawlingService;
+        this.httpSession = httpSession;
     }
 
 
@@ -64,6 +68,10 @@ public class BoardController {
     public String list(Model model, @RequestParam(value="num", required = false, defaultValue="1") Long num) {
 //        Long pageNo = (num != null && num.longValue() > 0) ? num : 1;
         Long pageNo = num;
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user != null) {
+            model.addAttribute("userName", user.getName());
+        }
 
         model.addAttribute("page", boardService.pagination((pageNo.intValue())));
         model.addAttribute("list", boardService.selectList(pageNo.intValue()));
